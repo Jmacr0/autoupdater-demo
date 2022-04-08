@@ -1,38 +1,65 @@
 {
-  "name": "autoupdater-demo",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "autoupdater-demo",
+	"version": "0.1.0",
+	"private": true,
+	"main": "public/electron.js",
+	"homepage": "./",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Jmacr0/update-repo-demo"
+	},
+	"dependencies": {
+		"@testing-library/jest-dom": "^5.16.2",
+		"@testing-library/react": "^12.1.2",
+		"@testing-library/user-event": "^13.5.0",
+		"concurrently": "^7.0.0",
+		"cross-env": "^7.0.3",
+		"electron-is-dev": "^2.0.0",
+		"electron-updater": "^4.6.5",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-scripts": "5.0.0",
+		"wait-on": "^6.0.0",
+		"web-vitals": "^2.1.4"
+	},
+	"scripts": {
+		"start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
+		"build:prod": "react-scripts build && electron-builder --win",
+		"build:publish": "set GH_TOKEN=<personal_access_token> && react-scripts build && electron-builder --win --publish always"
+	},
+	"build": {
+		"appId": "com.autoupdater.demo",
+		"productName": "Autoupdater Demo",
+		"directories": {
+			"output": "electron-build",
+			"buildResources": "build-assets"
+		},
+		"win": {
+			"publish": [
+				"github"
+			]
+		}
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"electron": "^17.0.0",
+		"electron-builder": "^22.14.13"
+	}
 }
